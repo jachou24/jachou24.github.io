@@ -1,0 +1,400 @@
+/* Basic reset */
+* {
+    box-sizing: border-box;
+    user-select: none;
+  }
+  
+  body {
+    margin: 0;
+    height: 100vh;
+    background: #111;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+  }
+  
+  /* Main cabinet */
+  .arcade {
+    width: min(96vw, 1100px);
+    height: 96vh;
+  
+    background: #222;
+    border: 1.2vmin solid #444;
+    border-radius: 3vmin;
+    padding: clamp(12px, 3vmin, 32px);
+  
+    display: flex;
+    flex-direction: column;
+  }  
+  
+  /* Screen */
+  .screen {
+    flex: 1 1 auto;
+    width: 100%;
+    background: black;
+    border: 0.8vmin inset #555;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    overflow: hidden;
+  }
+  
+  .screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* fills entire screen area */
+  }  
+
+  /* Controls */
+  .controls {
+    flex: 0 0 auto;
+    height: clamp(140px, 22vmin, 260px);
+  
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: clamp(16px, 4vmin, 40px);
+  
+    margin-top: clamp(12px, 3vmin, 24px);
+  } 
+
+/* Joystick shell */
+
+#joystick {
+    left: 10%;
+    width: clamp(12vmin, 14vmin, 16vmin);
+    height: clamp(25vmin, 26vmin, 27vmin);
+    /*
+    width: 80px;
+    height: 120px;
+    */
+    background: #222; /* #333 */
+    border-radius: 40px;
+    position: relative;
+    overflow: hidden;
+    touch-action: none;
+  }
+  
+  /* Moving assembly */
+  .joystick-inner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(0);
+    transition: transform 140ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* Joystick hole */
+  .joystick-hole {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(50px, 7vmin, 100px); /* matches stick height */
+    width: clamp(4vmin, 5.5vmin, 6.5vmin);
+    height: clamp(4vmin, 5.5vmin, 6.5vmin);
+    transform: translateX(-50%);
+    border-radius: 50%;
+    z-index: 0;
+  
+    /* Recessed metal / plastic ring */
+    background: radial-gradient(
+      circle at 50% 50%,
+      #241cfa 0%,
+      #49adff 45%,
+      #003cff 65%,
+      #003cff 100%
+    );
+  
+    box-shadow:
+      inset 0 3px 5px rgba(0, 0, 0, 0.9),
+      inset 0 -2px 3px rgba(255, 255, 255, 0.1),
+      0 2px 4px rgba(0, 0, 0, 0.6);
+  }
+  
+  
+  /* Stick */
+  .stick {
+    --stick-height: 46px;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: clamp(2vmin, 2.8vmin, 3vmin);
+    height: clamp(46px, 10vmin, 90px);
+    transform: translateX(-50%);
+    transform-origin: bottom center;
+    border-radius: 6px; /* 10px */
+    transition: height 120ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* 3d look */
+    background: linear-gradient(
+    to right,
+    #444 0%,
+    #888 35%,
+    #bbb 50%,
+    #777 65%,
+    #333 100%
+  );
+  clip-path: polygon(
+    30% 0%,
+    70% 0%,
+    100% 100%,
+    0% 100%
+  );
+  box-shadow:
+    inset 0 -2px 3px rgba(255,255,255,0.35), /* lower shine */
+    inset 0 2px 4px rgba(0,0,0,0.6),         /* depth */
+    0 0 6px rgba(200,200,200,0.25);          /* glow */
+  }
+  
+  /* Ball */
+  .ball {
+    position: relative;
+    left: 50%;
+    bottom: -26px;
+    /*
+    width: 40px;
+    height: 40px;
+    */
+    width: clamp(36px, 7vmin, 66px);
+    height: clamp(36px, 7vmin, 66px);
+    background: crimson;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    transition: transform 120ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    background: radial-gradient(
+        circle at 30% 30%,
+        #ff6b6b,
+        #b30000 60%,
+        #6b0000 100%
+      );
+    
+    box-shadow:
+    inset -2px -2px 4px rgba(255, 255, 255, 0.45), /* inner shine */
+    inset 2px 2px 6px rgba(0, 0, 0, 0.45),        /* inner depth */
+    0 4px 6px rgba(0, 0, 0, 0.6),                 /* grounding shadow */
+    0 0 10px rgba(255, 60, 60, 0.35);             /* soft glow */
+  }
+
+  /* Arcade-style 3D button */
+  @keyframes button-flicker {
+    0% {
+      box-shadow:
+        inset -2px -2px 5px rgba(255,255,255,0.4),
+        inset 2px 2px 5px rgba(0,0,0,0.4),
+        0 6px 0 #036008,
+        0 8px 12px rgba(0,0,0,0.5),
+        0 0 6px rgba(94, 255, 0, 0.25);
+    }
+  
+    45% {
+      box-shadow:
+        inset -2px -2px 5px rgba(255,255,255,0.5),
+        inset 2px 2px 5px rgba(0,0,0,0.4),
+        0 6px 0 #036008,
+        0 8px 12px rgba(0,0,0,0.5),
+        0 0 18px rgba(94, 255, 0, 0.75);
+    }
+  
+    55% {
+      box-shadow:
+        inset -2px -2px 5px rgba(255,255,255,0.35),
+        inset 2px 2px 5px rgba(0,0,0,0.5),
+        0 6px 0 #036008,
+        0 8px 12px rgba(0,0,0,0.5),
+        0 0 10px rgba(94, 255, 0, 0.4);
+    }
+  
+    100% {
+      box-shadow:
+        inset -2px -2px 5px rgba(255,255,255,0.45),
+        inset 2px 2px 5px rgba(0,0,0,0.4),
+        0 6px 0 #036008,
+        0 8px 12px rgba(0,0,0,0.5),
+        0 0 14px rgba(94, 255, 0, 0.55);
+    }
+  }
+
+#action-button {
+    width: clamp(70px, 16vmin, 140px);
+    height: clamp(70px, 16vmin, 140px);
+    font-size: clamp(12px, 2.5vmin, 20px);
+    right: 15%;
+    border-radius: 50%; /* round */
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: monospace;
+    position: relative;
+    background: radial-gradient(circle at 30% 30%, #53ff4d, #036008); /* shiny highlight */
+    box-shadow: 
+      inset -2px -2px 5px rgba(255,255,255,0.5), /* inner highlight */
+      inset 2px 2px 5px rgba(0,0,0,0.4),       /* inner shadow */
+      0 6px 0 #036008,                          /* pseudo 3D base */
+      0 8px 12px rgba(0,0,0,0.5);               /* outer shadow */
+    transition: all 0.1s ease-in-out;
+    animation: button-flicker 2.6s infinite ease-in-out;
+  }
+  
+  /* Pressed effect */
+  #action-button:active {
+    transform: translateY(4px); /* button press */
+    box-shadow: 
+      inset -2px -2px 5px rgba(255,255,255,0.5),
+      inset 2px 2px 5px rgba(0,0,0,0.4),
+      0 2px 0 #036008,     /* shorter 3D base */
+      0 4px 6px rgba(0,0,0,0.5);
+    background: radial-gradient(circle at 35% 35%, #86ff82, #0f8d16);
+  }
+  
+  /* Optional glow when hovered */
+  #action-button:hover {
+    box-shadow: 
+      inset -2px -2px 5px rgba(255,255,255,0.5),
+      inset 2px 2px 5px rgba(0,0,0,0.4),
+      0 6px 0 #036008,
+      0 8px 12px rgba(0,0,0,0.5),
+      0 0 15px rgba(94, 255, 0, 0.6); /* glow */
+  }
+
+  /* Disable snap while dragging */
+  .dragging .joystick-inner,
+  .dragging .stick,
+  .dragging .ball {
+    transition: none;
+  }
+
+  /* Coin slot */
+  .coin-slot {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .coin-slot-face {
+    width: clamp(48px, 9vmin, 78px);
+    height: clamp(64px, 12vmin, 100px);
+    border-radius: 10px;
+
+    position: relative;
+    isolation: isolate;
+  
+    background: linear-gradient(
+      to bottom,
+      #fff3b0 0%,
+      #f1c14f 35%,
+      #c48a1a 65%,
+      #7a5208 100%
+    );
+  
+    box-shadow:
+      inset -3px -3px 5px rgba(255,255,255,0.45),
+      inset 3px 3px 6px rgba(0,0,0,0.55),
+      0 4px 0 #7a5208,
+      0 7px 10px rgba(0,0,0,0.55);
+  
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .coin-slot-opening {
+    width: 65%;
+    height: 12%;
+    border-radius: 6px;
+  
+    background: linear-gradient(
+      to bottom,
+      #000 0%,
+      #222 50%,
+      #000 100%
+    );
+  
+    box-shadow:
+      inset 0 2px 4px rgba(0,0,0,0.85),
+      inset 0 -1px 2px rgba(255,255,255,0.15);
+  
+    position: relative;
+    z-index: 2;
+  }  
+
+  .coin {
+    position: absolute;
+    top: -30%;
+    left: 50%;
+  
+    width: 40%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    transform: translateX(-50%);
+  
+    background: radial-gradient(
+      circle at 30% 30%,
+      #fff6c8 0%,
+      #f5c94a 40%,
+      #b88412 70%,
+      #6a4706 100%
+    );
+  
+    box-shadow:
+      inset -2px -2px 3px rgba(255,255,255,0.6),
+      inset 2px 2px 4px rgba(0,0,0,0.5),
+      0 3px 5px rgba(0,0,0,0.6);
+  
+    opacity: 0;
+    z-index: 3;
+    pointer-events: none;
+  }
+  
+
+  @keyframes coin-insert {
+    0% {
+      transform: translate(-50%, -120%);
+      opacity: 0;
+    }
+  
+    15% {
+      opacity: 1;
+    }
+  
+    55% {
+      transform: translate(-50%, 30%);
+      opacity: 1;
+    }
+  
+    /* Coin touches slot and fades */
+    75% {
+      transform: translate(-50%, 42%);
+      opacity: 0.4;
+    }
+  
+    100% {
+      transform: translate(-50%, 55%);
+      opacity: 0;
+    }
+  }  
+  .coin-slot-face.animate .coin {
+    animation: coin-insert 0.9s ease-out forwards;
+  }
+  
+  
+  @media (max-width: 600px) {
+    .controls {
+      justify-content: space-around;
+    }
+  
+    #action-button {
+      align-self: flex-end;
+    }
+  }
+  @media (max-height: 700px) {
+    .controls {
+      height: clamp(120px, 20vmin, 200px);
+    }
+  }  
+  

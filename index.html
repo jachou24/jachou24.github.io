@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arcade Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <main class="arcade">
+    <section class="screen">
+      <img id="gallery-image" src="screens/coin.gif"/>
+    </section>
+
+    <section class="controls">
+    <div id="joystick">
+        <div class="joystick-inner">
+            <div class="joystick-hole"></div>
+            <div class="stick"></div>
+            <div class="ball"></div>
+        </div>
+    </div>
+
+    <div class="coin-slot">
+        <div class="coin-slot-face">
+          <div class="coin-slot-opening"></div>
+          <div class="coin"></div>
+        </div>
+    </div>      
+      
+
+    <button id="action-button">SELECT</button>
+    </section>
+  </main>
+
+    <audio id="sfx-joystickPull" src="sounds/joystickPull.m4a" preload="auto"></audio>
+    <audio id="sfx-select" src="sounds/selectButton.m4a" preload="auto"></audio>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
