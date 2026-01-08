@@ -1,1 +1,2 @@
 It will take some time for the 200-frames gifs to load the first time around. Then it becomes instantaneous. Use the joystick to scroll projects (click + drag OR use up/down arrows). Use the select button to visit the project link.
+Preview screens designed on Canva.
